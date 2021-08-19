@@ -27,7 +27,7 @@ import CartContext from "./store/cart-context";
 m1: {name:"sushi", amount:5, price:2.1},
 m2: {name:"kiwi", amount:2, price:2.9}
 }; */
-
+//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
 function App() {
 	///const [showCart, setShowCart] = useState(false);
 	//console.log(getCartItemsDict(DUMMY_MEALS));
