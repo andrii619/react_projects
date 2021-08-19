@@ -6,6 +6,13 @@ import classes from "./MealItem.module.css"
 import MealItemForm from "./MealItemForm";
 
 function MealItem(props) {
+	const submitHandler = (amount) =>
+	{
+		console.log("adding: ", amount);
+		// modify cart to add new items 
+
+
+	}
 	return (
 			<li className={classes.meal}>
 				<div >
@@ -13,7 +20,7 @@ function MealItem(props) {
 					<div className={classes.description}>{props.description}</div>
 					<div className={classes.price}>${props.price}</div>
 				</div>
-					<MealItemForm />
+					<MealItemForm onSubmit={submitHandler}/>
 {/* 				<Input labelText="Amount"/> */}
 			</li>
 	);

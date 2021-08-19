@@ -10,12 +10,10 @@ function AvailableMeals(props) {
 			<ul>
 				{
 					props.mealItems.map((mealItem) => {
-						return <MealItem key={mealItem.id} name={mealItem.name} price={mealItem.price} description={mealItem.description}/>
+						return <MealItem key={mealItem.id} id={mealItem.id} name={mealItem.name} price={mealItem.price} description={mealItem.description}/>
 					})
 				}
 			</ul>
-
-
 	</Card>)
 }
 
