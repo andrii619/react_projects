@@ -4,11 +4,11 @@ import classes from "./Input.module.css"
 //import {useState} from "react"
 
 function Input(props) {
-
+	const input = props.input;
 
 	return <div className={classes.input}>
-		<label>{props.labelText}</label>
-		<input type={props.type} min={props.min} max={props.max} step={props.step} value={props.value} onChange={props.onChange}></input>
+		<label htmlFor={input.id}>{props.labelText}</label>
+		<input id={input.id} {...input} value={input.value} onChange={input.onChange}></input>
 		</div>
 };
 

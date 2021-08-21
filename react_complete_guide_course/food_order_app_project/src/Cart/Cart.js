@@ -18,9 +18,9 @@ function buildCart(cartItems)
 
 function Cart(props) {
 	const cartContext = useContext(CartContext);
-	console.log("cart items object", props.cartItems);
-	const cart = buildCart(cartContext.cart);
-	console.log(cart);
+	//console.log("cart items object", props.cartItems);
+	const cart = buildCart(cartContext.cartItems);
+	//console.log(cart);
 	return <Modal onClose={cartContext.onToggleCart}>
 {/* 		<button type="button">Ok</button> */}
 		<ul className={classes["cart-items"]}>
@@ -35,11 +35,11 @@ function Cart(props) {
 		</ul>
 		<div className={classes.total}>
 			<label>Total Amount</label>
-			<label>{cartContext.orderTotal}</label>
+			<label>{cartContext.orderTotal.toFixed(2)}</label>
 		</div>
 		<div className={classes.actions}>
 			<button onClick={cartContext.onToggleCart}>Close</button>
-			<button className={classes['button--alt']}>Order</button>
+			<button className={classes['button--alt']} onClick={cartContext.onSubmitOrder}>Order</button>
 		</div>
 	</Modal>
 };

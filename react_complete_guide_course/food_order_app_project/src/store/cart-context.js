@@ -1,75 +1,102 @@
-import React, {useState} from "react";
+import React, {useReducer} from "react";
 import {DUMMY_MEALS} from "./dummy-meals";
 
 
 const CartContext = React.createContext({
-	cart: {},// dictionary for efficient add/remove operations
+	cartItems: {},// dictionary for efficient add/remove operations
 	orderTotal: 0.0,
 	numItems: 0,
 	showCart: false,
-	onAddToCart: () => {},
-	onSubmitOrder: () => {}
+	onAddToCart: (id, amount) => {},
+	onSubmitOrder: () => {},
+	onToggleCart: () => {}
 });
 
+const cartReducer = (state, action) => {
+	if(action.type === "TOGGLE_CART")
+	{
+		state.showCart = !state.showCart;
+		return {...state};///!!!!important cant return state object cuz react does not know we edited memory in state object
+	}
+	else if(action.type === "ADD_TO_CART")
+	{
+		const id = action.val.id;
+		const amount = Number(action.val.amount);
+		if(id in state.cartItems)//item in cart
+		{
+			const price = DUMMY_MEALS[id].price;
+			const prevAmount = Number(state.cartItems[id].amount);
+			//tate.numItems -= prevAmount; // subtract prev amount from state
+			let newAmount = prevAmount + amount;
+			if(newAmount< 0)
+			{
+				return state;//dont allow removing more items than we have in cart
+			}
+			state.orderTotal += amount * price;
+			state.cartItems[id].amount =  newAmount;
+			state.numItems += amount;
+			
+			if(newAmount === 0)
+			{
+				delete state.cartItems[id];
+			}
+			return {...state};
+		}
+		else//item not in cart 
+		{
+			if(amount > 0)
+			{
+				const name = DUMMY_MEALS[id].name;
+				const price = DUMMY_MEALS[id].price;
+				
+				state.cartItems[id] = {name: name, amount: (amount), price: price};
+				state.numItems += amount;
+				state.orderTotal += amount * price;
+				state.orderTotal = Number(state.orderTotal.toFixed(2));
+				return {...state};
+			}
+			else
+			{
+				return state;// return old state
+			}
+		}
+		
+	}
+	return {cartItems: {}, orderTotal: 0.0, numItems: 0, showCart: false};
+};
 
 export const CartContextProvider = (props) => {
-	/*const [cartItems, setCartItems] = useState({
-		m1: {name:"sushi", amount:5, price:2.1},
-		m2: {name:"kiwi", amount:2, price:2.9}
-		});*/
-	const [cartItems, setCartItems] = useState({});
-	const [orderTotal, setOrderTotal] = useState(0.0);
-	const [numItems, setNumItems] = useState(0);
-	const [showCart, setShowCart] = useState(false);
+
+	const [cartState, dispatchCart] = useReducer(cartReducer, {cartItems: {},
+			orderTotal: 0.0, numItems: 0, showCart: false});
+	//const [showCart, setShowCart] = useState(false);
 
 	const addToCartHandler = (id, amount) =>
 	{
-		// increment cart item by a value or add a new cart item if not there
-		if(id in cartItems)
-		{
-			setCartItems((prevCart) => {
-				prevCart[id].amount =  Number(prevCart[id].amount) + Number(amount);
-				return prevCart;
-			});
-		}
-		else
-		{
-			setCartItems((prevCart) => {
-				const name = DUMMY_MEALS[id].name;
-				const price = DUMMY_MEALS[id].price;
-				prevCart[id] = {name: name, amount: Number(amount), price: price};
-				return prevCart;
-			});
-		}
-		/*setCartItems((prevCart) => {
-			const {id, name, amount} = mealItem;
-			const prevAmount = prevCart[id]?.amount || 0;
-			prevCart[id] = {id: id, name: name, amount: (amount+prevAmount)};
-			return prevCart;
-		});*/
-		setNumItems((prevNumItems) => { return Number(prevNumItems) + Number(amount)});
-		setOrderTotal((prevOrderTotal)=>{
-			return prevOrderTotal + amount * DUMMY_MEALS[id].price;
-		});
+		dispatchCart({type: "ADD_TO_CART", val: {id: id, amount: amount} });
 	};
 	const toggleCartHandler = () => {
-		//change amount of an item in cart to some specifiv amount 
-		console.log("toggle cart", showCart);
-		setShowCart((prevShowCart)=>{return !prevShowCart;});
+		dispatchCart({type: "TOGGLE_CART"});
 	};
 
-	const submitOrderHandler = (props) => {
-
+	const submitOrderHandler = () => {
+		if(cartState.numItems === 0)
+		{
+			console.log("cant submit order. empty cart");
+			return;
+		}
+		console.log("submitting order");
 	};
 
 
 	return <CartContext.Provider value={{
-				cart: cartItems,
-				orderTotal: orderTotal,
-				numItems: numItems,
-				showCart: showCart,
+				cartItems: cartState.cartItems,
+				orderTotal: cartState.orderTotal,
+				numItems: cartState.numItems,
+				showCart: cartState.showCart,
 				onToggleCart: toggleCartHandler,
-				onAddToCart:addToCartHandler}}>
+				onAddToCart:addToCartHandler,
+				onSubmitOrder: submitOrderHandler}}>
 			{props.children}
 		</CartContext.Provider>
 
