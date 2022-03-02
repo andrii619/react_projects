@@ -1,0 +1,18 @@
+
+
+
+jsx ul elements need a key property to be rendered efficinetly
+	<ul>
+          {list.map(function (item) {
+            return <li key={item.objectID}>{item.title}</li>;
+          })}
+        </ul>
+	
+	
+
+
+
+
+
+
+

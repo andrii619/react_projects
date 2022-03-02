@@ -1,0 +1,218 @@
+
+
+
+
+1) there is one central data store 
+
+2) components never directly update/manipulate the data store
+
+components subscribe to the store 
+
+reducer function on the store mutates the state in the store
+
+components dispatch actions
+
+
+
+
+run:
+npm init
+npm install redux 
+npm install react-redux
+
+const redux = require('redux');
+
+3) reducer function gets called by react with two arguments: old state, action that was dispatched
+
+
+*****
+4) must output a new state object. Do not return a reference to the old state, do not modify old state
+
+*****
+5) Reducer must be a PURE function: same inputs = same outputs + no side effects
+
+
+6) inside reducer give state a default value
+
+
+*****
+7) when a store initializes redux calls the reducer funcion for the first time. Subscriber is not being called initially
+
+Create a store:
+	
+	
+	const counterReducer = (state = {counter:0}, action) => {
+		return {
+			counter: state.counter + 1
+		};
+	}
+	
+	const store = redux.createStore(counterReducer);
+	
+	// important counter will be 1 here
+	console.log(store.getState());
+	
+	
+	const counterSubscriber = () => {
+		
+		
+		//gives the latest state
+		const state = store.getState();
+		console.log(state);
+	}
+	
+	// subscribe to state updates
+	store.subscribe(counterSubscriber);
+
+
+_________________________________
+REACT + REDUX
+
+create folder called store that will store all the redux store files
+
+add a reducer function into the store file. create a redux store object and export it
+
+
+in index.js of the app:
+
+import {Provider} from "react-redux"
+
+// import the store from the store file 
+import store from "./store/index.js"
+
+wrap the <App> componenet with the provider 
+
+provider has a prop called store. pass the imported store as args 
+
+<Provider store={store}> <App/> </Provider>
+
+
+
+
+
+
+in component 
+
+In the component we want to get our data from the store:
+
+import {useSelector, useDispatch} from "react-redux"
+
+use selector recieves the store state and selects only the data we need 
+const counter = useSelector(state => {
+	state.counter;
+});
+
+useSelector will automatically subscribe the component to state updates 
+
+if the component unmounts react redux unsubscribes for you
+
+
+Dispatching actions from componenet:
+
+useDispatch hook from react-redux is used to dispatch actions to the store
+
+// gived back a dispatch function
+const dispatch = useDispatch();
+
+const incrementHandler = (event) => {
+	dispatch({type:"increment"});
+}
+
+++++++++++++++++++++++++++++++++++++++++++++++
+
+class based components 
+
+
+// connect helps to connect class based componenets to the store. we cannot use hooks inside class based componenets
+import {connect} from react-redux
+
+
+
+
+
+class Counter extends Component {
+
+
+	render() {
+		
+		
+		return JSX code for this component
+	}
+
+}
+
+
+when we export the Counter component we wrap it in connect 
+
+connect() is returning a new function which we then call with our class as the argument
+
+
+
+
+
+connect needs to arguments that are functions. the first function connects redux state to props which will be received by the class component 
+
+
+const mapStateToProps = (state) => {
+	// counter will be a prop name inside the Counter class
+	counter: state.counter
+}
+
+const mapDispatchToProps = (dispatch) => {
+	
+	increment() {
+		// the connect function will add the increment dispatch to the props of this component
+		this.props.increment();
+	}
+	
+	return {
+	
+		// increment will be 
+		increment: () => {dispatch({action: "increment"})}
+	}
+	
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Counter)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

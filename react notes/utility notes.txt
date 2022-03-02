@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+array filtering 
+if the condition is true the item is kept if it is false the item is removed 
+prevUserIngredients.filter( (ingredient) => {return ingredient.id !== id;})
+
+
+*********************
+function binding 
+
+--------------------
+
+
+
+Array map
+const numbers = [1, 4, 9, 16];
+const newNumbers = numbers.map(function(number) {
+return number * 2;
+});
+console.log(newNumbers);
+// [2, 8, 18, 32]
+
+
+
+
+
+import third party package in node.js 
+const redux = require('redux');
+
+

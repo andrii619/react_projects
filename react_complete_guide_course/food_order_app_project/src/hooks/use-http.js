@@ -21,14 +21,15 @@ function useHttp() {
               headers: requestConfig.headers ? requestConfig.headers : {}
           }
         );
-          console.log("1");
+          //console.log("1");
         if (!response.ok) {
           throw new Error('Request failed!');
         }
   
         const data = await response.json();
-        console.log("2");
-        dataTransform(data);
+        //console.log("2");
+        console.log("data", data);
+        dataTransform(data);// transform the data and also bind the data to a state
   
       } catch (err) {
         setError(err.message || 'Something went wrong!');

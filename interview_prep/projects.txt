@@ -1,0 +1,179 @@
+include react front end developer descrioption in objectives
+include company name in the objectives. include what they are looking for as a first item
+
+in work experiance add description that demonstrates value. Something impressive that was achieved
+
+github profile?
+
+
+
+Use a pre-designed resume template
+Make the resume fit on 1 page
+Include words from job description
+Include company name you are applying to
+Does your first item on your resume reflect what they are looking for?
+Experience titles demonstrate value
+Do you have an online link?
+Remove the word “I”
+No buzzwords describing how great you are
+Are you using Action words?
+		what did you do?
+		what were the results?
+Measure everything in terms of impact, don’t just describe your responsibilities
+Technical Knowledge/Skills should include what they are looking for. Only show years if it is impressive
+Include only sections/items that are impressive: Experience, Projects, Education, Technical Skills
+No typos or bad grammar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Work Projects:
+	1) Object detection
+		* Got phase II of the contract
+		* Frame rate 1->30fps
+		* Modular implementation. Can add more objects/change detection pipeline (change neural net/pre processing)
+		* RGB/IR data fusing
+		* Detection accuracy increase 
+	
+	
+	
+	2) Drone underwater autonomous navigation with DVL
+		
+		
+		
+	
+	
+	
+	3) Smaller project QGC modifying
+	
+	
+	
+	4) Autopilot architecture rewriting
+	
+	
+	
+	
+
+
+Learn react
+1) Food order app 
+
+
+
+
+
+
+
+
+
+1) Machine learning projects
+
+2) Interested in working with skilled engineers. Constantly being challanged
+
+3) Interested in making a bigger impact on the end user with my work 
+
+4) Team has to build on each other
+
+
+5) biggest weakness
+	Impatient
+	
+	used to be a bad communicator
+	
+
+
+
+6) strength
+	learn very quickly
+	
+	
+	adapt to high workloads
+	
+
+
+
+
+
+
+
+
+
+
+
+
+1) ML + web dev 
+2) am I going to be challanged to grow
+3) work with skilled engineers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

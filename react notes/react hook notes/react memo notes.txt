@@ -1,0 +1,79 @@
+
+
+
+https://dmitripavlutin.com/use-react-memo-wisely/
+
+
+
+
+
+When a component is wrapped in React.memo(), React renders the component and memoizes the result. Before the next render, if the new props are the same, React reuses the memoized result skipping the next rendering.
+
+For example wrapping a form can be useful
+
+
+
+
+
+By default React.memo() does a shallow comparison of props and objects of props.
+
+To customize the props comparison you can use the second argument to indicate an equality check function
+
+
+
+React.memo(Component, [areEqual(prevProps, nextProps)]);
+
+
+
+example 
+
+function moviePropsAreEqual(prevMovie, nextMovie) {
+  return prevMovie.title === nextMovie.title
+    && prevMovie.releaseDate === nextMovie.releaseDate;
+}
+const MemoizedMovie2 = React.memo(Movie, moviePropsAreEqual);
+
+
+
+
+
+When to use react memo:
+	1) Pure functional component: given the same input always renders the same output
+	2) Renders very often
+	3) Rerenders with the same props 
+	4) medium to big size components
+	
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

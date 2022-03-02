@@ -37,6 +37,10 @@
   color: white;
 }
 
+.actions button:disabled {
+  background-color: rgb(61, 59, 59);
+}
+
 .actions .button--alt {
 /*   color: #8a2b06; */
   color: white;

@@ -1,0 +1,41 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the reducer function is defined outside of our components to prevent recreating when the component re renders 
+
+import {useReducer} from "react";
+
+
+
+const ingredientsReducer = (prevState, action) => {
+    switch(action.type)
+    {
+      case "ADD":
+        return [...prevState, action.ingredient];
+      case "DELETE":
+        return prevState.filter((ing) => {return ing.id !== action.id;});
+      case "SET":
+        return action.ingredients;
+      default:
+        throw new Error("Invalid action");
+    }
+};
+
+
+// then inside component
+
+const [userIngredients, dispatchIngredients] = useReducer(ingredientsReducer, []);
+
+
+dispatchIngredients({type:"SET", ingredients: filteredIngredients});

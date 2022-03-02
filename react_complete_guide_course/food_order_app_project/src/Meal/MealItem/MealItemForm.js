@@ -11,6 +11,7 @@ function MealItemForm(props) {
 	const submitHandler = (event)=> {
 		event.preventDefault();
 		props.onSubmit(stateValue);
+		setStateValue("1");
 	}
 	const input = {id: props.id,type: "number",min:"1",max:"10",
 			 step:"1", value: stateValue, onChange: valueChangeHandler};

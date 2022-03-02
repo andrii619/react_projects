@@ -7,6 +7,8 @@ import { DUMMY_MEALS } from "./store/dummy-meals";
 import Cart from "./Cart/Cart";
 import CartContext from "./store/cart-context";
 
+
+
 import useHttp from "./hooks/use-http";
 
 //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
@@ -29,14 +31,14 @@ function App() {
 		  }, transformMeals);
 		  
 	}, [fetchMeals]);
-
+	//console.log("error", error)
   return (
 <React.Fragment>
 	{cartContext.showCart && <Cart/> }
     <Header/>
 	<main>
 		<MealsSummary/>
-		{!error && !isLoading && <AvailableMeals mealItems={availableMeals}/>}
+		<AvailableMeals mealItems={availableMeals} error={error} isLoading={isLoading}/>
 	</main>
 </React.Fragment>
   );

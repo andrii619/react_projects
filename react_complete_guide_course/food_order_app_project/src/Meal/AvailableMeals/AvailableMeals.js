@@ -6,6 +6,11 @@ import classes from "./AvailableMeals.module.css"
 
 function buildAvailableMeals(mealItems)
 {
+	if(!mealItems)
+	{
+		return null;
+	}
+
 	const mealsBuild = [];
 	for(const item in mealItems)//iterate keys
 	{
@@ -23,14 +28,16 @@ function AvailableMeals(props) {
 	return (
 	<section className={classes.meals}>
 		<Card>
-			<ul>
+			{!props.error && !props.isLoading && <ul>
 				{
 					/*props.mealItems.map((mealItem) => {
 						return <MealItem key={mealItem.id} id={mealItem.id} name={mealItem.name} price={mealItem.price} description={mealItem.description}/>
 					})*/
-					meals
+					meals ? meals : <p>No Meals To Display...</p>
 				}
-			</ul>
+			</ul>}
+			{props.isLoading && <p className={classes.MealsLoading}>Loading....</p>}
+			{props.error && <p>Failed to load meals</p>}
 	</Card></section>)
 }
 

@@ -1,0 +1,11 @@
+
+
+
+use callback caches a function so that is survives re render cycles.
+
+on a re render of a component the filteredIngredientsHandler function would have been re created every time and it would be a new 
+function object. If this function would have been called inside useEffect it would cause it to execute again. 
+
+  const filteredIngredientsHandler = useCallback( (filteredIngredients) => {
+    setUserIngredients(filteredIngredients);
+  }, []);

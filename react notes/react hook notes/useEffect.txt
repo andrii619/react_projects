@@ -1,0 +1,191 @@
+
+
+
+
+
+https://stackoverflow.com/questions/53464595/how-to-use-componentwillmount-in-react-hooks
+
+example inside a component we want to request a list from a database and update our state list 
+
+
+fetch(
+      'https://react-test-7bc77-default-rtdb.firebaseio.com/ingredients.json').then(response => response.json()).then(
+      			
+      			responseData => {
+      				
+      				const loadedIngredients = []
+      				
+      				for(const key in responseData)
+      				{
+      					loadedIngredients.push({id:key, title: responseData[key].title, amount:responseData[key].amount})
+      				}
+      				
+      				/// infinite loop
+      				setUserIngredients(loadedIngredients);
+      				
+      			}
+      			)
+
+
+the setting of the state inside the http request will result in infinite loop
+	
+	at the beginning of render cycle the http req is sent. then the state is set and the component gets rerendered. then the state is set agian...
+	
+
+
+first argument s the function that will execute
+
+
+second argument is the dependency list.
+	ommiting the argument makes use effect run after every rerender cycle, "did component update?"
+			useEffect(function);
+	
+	adding an empty array as argument makes use effect run ONLY ONCE, Acts like "did component mount?"
+			useEffect(function, [])
+	
+	adding a variable 
+			useEffect(function, [var1,var2,...])
+
+
+
+
+
+
+Example
+
+  useEffect(() => {
+    fetch(
+      'https://react-test-7bc77-default-rtdb.firebaseio.com/ingredients.json'
+    ).then(response => {
+      return response.json();
+    }).then(responseData => {
+        const loadedIngredients = [];
+        for(const key in responseData)
+        {
+            loadedIngredients.push({key: key, title: responseData[key].title, amount: responseData[key].amount});
+        }
+        setUserIngredients(loadedIngredients);
+    });
+  },[]);
+
+load up an ingredient list by sending http request. happens only once when the component mounts in the dom
+
+
+example
+
+
+  useEffect(() => {
+    console.log("rendering ingredients");
+  });
+  
+  
+  prints every time component re renders 
+
+
+---------------------------
+Example
+
+	// this pulls specific onLoadIngredients function that will update the list of ingredients for us and store it as a state
+  const {onLoadIngredients} = props;
+  const [userFilter, setUserFilter] = useState("");
+
+  useEffect(() => {
+    const query = userFilter.length === 0 ? "" : `?orderBy="title"&equalTo="${userFilter}"`;
+    fetch(
+      'https://react-test-7bc77-default-rtdb.firebaseio.com/ingredients.json' + query
+    ).then(response => {
+      return response.json();
+    }).then(responseData => {
+        const loadedIngredients = [];
+        for(const key in responseData)
+        {
+            loadedIngredients.push({id: key, title: responseData[key].title, amount: responseData[key].amount});
+        }
+       /// setUserIngredients(loadedIngredients);
+       onLoadIngredients(loadedIngredients);
+    });
+  },[userFilter, onLoadIngredients]);
+
+
+  const onInputChange = (event) =>
+  {
+      // capture event value first to prevent event pooling 
+      const userInput = event.target.value;
+      
+      setUserFilter(userInput);
+
+  };
+
+
+
+------------------------------------------------
+
+
+use effect can return a function. A cleanup function.
+It will be called right before the use effect will be run again
+
+does not run after the first time use effect runs but runs before the second time it executes
+
+executes when componentWillUnmount
+
+Example:
+
+  useEffect(() => {
+    const timer = setTimeout( () => {
+
+      // userFilter is a closure. Its value is the value that was when the setTimeout was called
+      // it is not the current value. current value we check with the ref
+      if(userFilter !== inputRef.current.value)
+      {
+        return;
+      }
+      const query = userFilter.length === 0 ? "" : `?orderBy="title"&equalTo="${userFilter}"`;
+      fetch(
+        'https://react-test-7bc77-default-rtdb.firebaseio.com/ingredients.json' + query
+      ).then(response => {
+        return response.json();
+      }).then(responseData => {
+          const loadedIngredients = [];
+          for(const key in responseData)
+          {
+              loadedIngredients.push({id: key, title: responseData[key].title, amount: responseData[key].amount});
+          }
+          /// setUserIngredients(loadedIngredients);
+          onLoadIngredients(loadedIngredients);
+        });
+        return () => {
+          clearTimeout(timer);
+        }
+  }, 500);
+  },[userFilter, onLoadIngredients, inputRef]);
+
+
+
+in this case we clean up our timer befer use effect executes next time. 
+if we dont do that we have a timer set on each keystroke. so on each keaystroke we set a new timer. 
+clear timeout will clear that old timer before we set a new one
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+use ref is a hook that is used to dererence a dom element 
+
+
+import {useRef} from 'react';
+
+
+const inputRef = useRef();
+
+
+
+ <input type="text" value={userFilter} onChange={onInputChange} ref={inputRef}/>
+ 
+ 
+ 
+this established a connection between the input and the variable inputRef
+
+
+
+// get the current value of the reference
+inputRef.current.value 

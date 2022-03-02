@@ -1,0 +1,185 @@
+
+
+
+React batches state updates
+
+import {useState} from 'react';
+
+
+
+
+inside the react component call use state to initial memorize a state of an object
+
+
+
+*** Use react hooks on the root level of functional components or other custom hooks
+
+const [state, setState] = useState(initialState);
+
+initialState is the object representing initial  state 
+
+use state returns two things:
+	
+	state - the object that use state manages 
+	setState is a function that has to be called to update the sate of the sate object that it manages
+	
+
+
+
+
+
+
+Two way binding:
+
+
+const [inputState, updateInputState] = useState({title:"", amount:""});
+
+
+Inside the component in the html input type we can set the value as:
+
+<input type="text" id="title" value={inputState.title}/>
+
+Then this input text box will be rendered with the current state of the inputState
+
+IN THe same html component use the on change event handler to update the current object state by using our use state function.
+wrap it in an anonymous function
+onChange={event => {updateInputState({title: event.target.value, amount: inputState.amount})}}
+
+
+State is update with a new sate object. OLD object is lost. So each property has to be passed to update
+
+
+
+
+onChange={event => {updateInputState({title: event.target.value, amount: inputState.amount})}}
+
+****This does not guarantee that the amount state has the latest state snapshots. React defers state updates. SO amount could still be old amount when we try to update the title.
+
+*** Instead use an state update function 
+
+updateInputState(prevInputState => {
+return {title: event.target.value, amount: inputState.amount}
+})
+
+this makes sure that the prevInputState has the latest state even if it has not been rerendered
+
+onChange={event => {updateInputState(prevInputState => {
+                  return {title: event.target.value, amount: prevInputState.amount};
+                   } )}}
+
+
+
+
+***************************
+Important React reuses event objects
+
+when we call event.target.value we might be using old event 
+
+use this instead 
+
+
+https://dmitripavlutin.com/simple-explanation-of-javascript-closures/
+
+https://dmitripavlutin.com/react-hooks-stale-closures/
+
+
+The closure is a function that accesses its lexical scope even executed outside of its lexical scope.
+Simpler, the closure is a function that remembers the variables from the place where it is defined, regardless of where it is executed later
+
+
+
+
+
+function DelayedCount() {
+  const [count, setCount] = useState(0);
+  function handleClickAsync() {
+    setTimeout(function delay() {
+      setCount(count + 1);
+    }, 1000);
+  }
+  return (
+    <div>
+      {count}
+      <button onClick={handleClickAsync}>Increase async</button>
+    </div>
+  );
+}
+
+vs
+
+
+function DelayedCount() {
+  const [count, setCount] = useState(0);
+  function handleClickAsync() {
+    setTimeout(function delay() {
+      setCount(count => count + 1);
+    }, 1000);
+  }
+  function handleClickSync() {
+    setCount(count + 1);
+  }
+  return (
+    <div>
+      {count}
+      <button onClick={handleClickAsync}>Increase async</button>
+      <button onClick={handleClickSync}>Increase sync</button>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+When a callback function that returns the new state based on the previous one is supplied to the state update function, React makes sure that the latest state value is supplied as an argument to that callback:
+
+setCount(alwaysActualStateValue => newStateValue);
+
+That's why the stale closure problem that appears during state update is usually solved pretty well by using a functional way to update the state.
+
+
+
+
+
+
+------------------------
+events in react 16 are reused between fireing
+so event.target.value can be null when you type
+saving it to a local variable can prevent that
+
+this is called event pooling
+
+            onChange={event => {
+                  const newTitle = event.target.value;// 
+                  updateInputState(prevInputState => {
+                      return {title: newTitle, amount: prevInputState.amount};
+                   } )}}/>
+
+https://blog.saeloun.com/2021/04/06/react-17-removes-event-pooling-in-modern-system.html
+
+
+--------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

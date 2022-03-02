@@ -1,0 +1,130 @@
+
+
+
+
+
+
+
+
+Context disadvantages:
+	1) complext setup and management. can be a problem with big application
+		
+		Ex:
+			
+			<AuthCOntextProvider>
+				<ThemeContextProvider>
+					<UIInterractionContextProvider>
+						</UserRegistration>
+					</UIInterractionContextProvider>
+				</ThemeContextProvider>
+			</AuthCOntextProvider>
+			
+		
+		Or combine these context providers into one. But leads to one big context provider component managing a lot of unreleated state
+		
+	
+	2) good for low frequency updates but bad for high frequency updates
+
+
+
+
+
+
+1) create cart-context.js file
+
+
+
+2) define a CartContext object with default values
+
+
+const CartContext = React.createContext({
+	cartItems: {},// dictionary for efficient add/remove operations
+	orderTotal: 0.0,
+	numItems: 0,
+	showCart: false,
+	onAddToCart: (id, amount) => {},
+	onSubmitOrder: () => {},
+	onToggleCart: () => {}
+});
+
+
+
+3) export it
+export default CartContext;
+
+
+
+
+4) define a CartContextProvider that will keep and manage the actual context state
+
+export const CartContextProvider = (props) => {
+	const {isLoading, error, sendRequest:addOrderRequest} = useHttp();
+	const [cartState, dispatchCart] = useReducer(cartReducer, {cartItems: {},
+			orderTotal: 0.0, numItems: 0, showCart: false});
+
+}
+
+
+
+5) wrapp the app component in a cartcontext 
+
+import {CartContextProvider} from "./store/cart-context";
+
+ReactDOM.render(<CartContextProvider>
+	<App/>
+	</CartContextProvider>, document.getElementById('root'));
+	
+	
+
+
+
+
+
+
+6) inside the component you want to use the context add this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

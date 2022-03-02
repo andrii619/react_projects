@@ -1,0 +1,36 @@
+
+
+
+sudo apt install nodejs
+sudo apt install npm
+
+
+# this installs the latest nodejs
+npm install -g n
+sudo n stable
+
+
+
+
+
+
+create a new react app
+npx create-react-app hacker-stories
+
+
+To install new project in source folder run:
+	npm install
+	npm start
+	
+The local server starts on http://localhost:3000/
+
+
+
+
+
+# Runs the application in http://localhost:3000
+npm start
+# Runs the tests
+npm test
+# Builds the application for production
+npm run build
