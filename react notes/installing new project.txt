@@ -10,7 +10,7 @@ npm install -g n
 sudo n stable
 
 
-
+sudo npm -g install create-react-app
 
 
 
