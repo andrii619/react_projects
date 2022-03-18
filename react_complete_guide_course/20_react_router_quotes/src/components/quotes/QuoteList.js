@@ -4,6 +4,23 @@ import QuoteItem from './QuoteItem';
 import classes from './QuoteList.module.css';
 
 const QuoteList = (props) => {
+
+  const quotes = [];
+  for(const quoteId in props.quotes)
+  {
+    quotes.push(<QuoteItem key={quoteId}
+      id={quoteId}
+      author={props.quotes[quoteId].author}
+      text={props.quotes[quoteId].text}/>);
+  }
+
+  return <Fragment>
+    <ul className={classes.list}>
+        {quotes}
+    </ul>
+  </Fragment>
+
+  /*
   return (
     <Fragment>
       <ul className={classes.list}>
@@ -18,6 +35,8 @@ const QuoteList = (props) => {
       </ul>
     </Fragment>
   );
+  */
+
 };
 
 export default QuoteList;

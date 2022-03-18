@@ -15,8 +15,12 @@ const QuoteForm = (props) => {
     const enteredText = textInputRef.current.value;
 
     // optional: Could validate here
-
-    props.onAddQuote({ author: enteredAuthor, text: enteredText });
+    console.log(enteredAuthor, enteredText);
+    if(enteredText.trim() !== "" && enteredAuthor.trim() !== "")
+    {
+      props.onAddQuote({ author: enteredAuthor, text: enteredText });
+    }
+    //
   }
 
   return (
