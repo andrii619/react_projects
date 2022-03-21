@@ -10,6 +10,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import AllQuotes from "./pages/AllQuotes";
 import QuoteDetail from "./pages/QuoteDetail";
 import NewQuote from "./pages/NewQuote";
+import NotFound from "./pages/NotFound";
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/add_quote" exact>
           <NewQuote/>
+        </Route>
+        <Route path="*">
+          <NotFound/>
         </Route>
       </Switch>
       </Layout>
