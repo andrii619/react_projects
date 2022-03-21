@@ -1,4 +1,3 @@
-
 import QuoteList from "../components/quotes/QuoteList";
 import NoQuotesFound from "../components/quotes/NoQuotesFound";
 import { useDispatch } from "react-redux";
@@ -12,53 +11,55 @@ import LoadingSpinner from "../components/UI/LoadingSpinner";
 
 import { useEffect } from "react";
 
-
 const AllQuotes = (props) => {
   const dispatch = useDispatch();
-    //const quotes = useSelector((state) =>
-    //{
-    //  return state.quoteReducer.quotes;
-    //});
+  //const quotes = useSelector((state) =>
+  //{
+  //  return state.quoteReducer.quotes;
+  //});
 
-    const {sendRequest, status, data: loadedQuotes, error} = useHttp(getAllQuotes, true);
-  
-    //const quoteNum = useSelector((state) =>
-    //{
-    //  return state.quoteReducer.quoteNum;
-    //});
-    useEffect(() => {
-      sendRequest();
-    }, [sendRequest]);
+  const {
+    sendRequest,
+    status,
+    data: loadedQuotes,
+    error,
+  } = useHttp(getAllQuotes, true);
 
-    useEffect(() => {
-      if(status === "completed")
-      {
-        console.log("loaded quotes: ",loadedQuotes)
-        dispatch(quoteActions.setQuotes(loadedQuotes));
-      }
-    }, [status, dispatch, loadedQuotes]);
+  //const quoteNum = useSelector((state) =>
+  //{
+  //  return state.quoteReducer.quoteNum;
+  //});
+  useEffect(() => {
+    sendRequest();
+  }, [sendRequest]);
 
-    if(status === "pending")
-    {
-      return <div className="centered"><LoadingSpinner/></div>
+  useEffect(() => {
+    if (status === "completed") {
+      console.log("loaded quotes: ", loadedQuotes);
+      dispatch(quoteActions.setQuotes(loadedQuotes));
     }
-    else if(error)
-    {
-      return <p className="centered focused">{error}</p>
-    }
-    else if(status === "completed" &&(!loadedQuotes || loadedQuotes.length===0))
-    {
-      return <NoQuotesFound/>;
-    }
-    else
-    {
-      return <QuoteList quotes={loadedQuotes}/>
-    }
-    //else
-    //{
-    //  return (quotes.length !==0 ? <QuoteList quotes={quotes}></QuoteList> : <NoQuotesFound></NoQuotesFound>) ;
-    //}
+  }, [status, dispatch, loadedQuotes]);
+
+  if (status === "pending") {
+    return (
+      <div className="centered">
+        <LoadingSpinner />
+      </div>
+    );
+  } else if (error) {
+    return <p className="centered focused">{error}</p>;
+  } else if (
+    status === "completed" &&
+    (!loadedQuotes || loadedQuotes.length === 0)
+  ) {
+    return <NoQuotesFound />;
+  } else {
+    return <QuoteList quotes={loadedQuotes} />;
+  }
+  //else
+  //{
+  //  return (quotes.length !==0 ? <QuoteList quotes={quotes}></QuoteList> : <NoQuotesFound></NoQuotesFound>) ;
+  //}
 };
-
 
 export default AllQuotes;
